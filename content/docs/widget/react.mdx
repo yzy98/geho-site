@@ -1,0 +1,101 @@
+---
+title: React
+description: Embed a Geho chatbot in your React website.
+---
+
+## Before you begin
+
+You need:
+
+- A React application using React and React DOM 18.2 or later.
+- A running Geho API reachable from the visitor's browser.
+ - A chatbot connected to a configured chat provider and knowledge base.
+
+ Complete [Create Your First Chatbot](/docs/first-chatbot) if you do not have a chatbot yet.
+
+## Integration
+
+### Create an embed key
+
+Open your chatbot's embed key management in the Dashboard and create a key.
+
+Add the origin of the website that will host the widget.
+For example:
+
+```text
+http://localhost:5173
+```
+
+Use your website's actual origin, including its protocol and port. Do not include a page path.
+
+Copy the generated `pk_...` value. The full key is shown only once.
+
+<Callout>
+  An embed key is intended for browser use. It is separate from your model provider credentials.
+</Callout>
+
+### Install SDK
+
+In your React project, run:
+
+```npm
+npm install @geho/widget-react
+```
+
+<Callout type="warn">
+  The application must already provide compatible `react` and `react-dom` dependencies.
+</Callout>
+
+### Add the widget
+
+```tsx title="app.tsx"
+import { ChatWidget } from "@geho/widget-react";
+
+export default function App() {
+  return (
+    <>
+      <main>
+        <h1>Acme Store</h1>
+      </main>
+
+      // [!code ++]
+      <ChatWidget
+        apiUrl="http://localhost:4000"  // [!code ++]
+        embedKey="pk_replace_with_your_embed_key"  // [!code ++]
+        // [!code ++]
+      />
+    </>
+  );
+}
+```
+
+Mount the widget in a stable part of your application, such as its shared layout.
+
+| Prop | Description |
+| --- | --- |
+| `apiUrl` | Base URL of your Geho API |
+| `embedKey` | Public embed key generated for your chatbot |
+
+ The localhost API address above is for local development. For a deployed website, use the deployed API's browser-accessible URL.
+
+### Verify
+
+Open your React application and click the chat launcher.
+
+Ask a question covered by your knowledge base. You should receive an answer from the configured chatbot.
+
+The widget connects to Geho when opened for the first time.
+
+## Troubleshooting
+
+### The widget cannot connect
+
+Check that the API is running and that `apiUrl` is reachable from the browser displaying your website.
+
+### Requests are rejected
+
+Check that the embed key is valid and has not been revoked. Confirm that the key's allowed origins include the website's actual origin, including its protocol and port.
+
+### Answers do not use the expected knowledge
+
+Confirm that the chatbot uses the intended knowledge base and that its sources have reached `ready`.

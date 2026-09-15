@@ -1,0 +1,45 @@
+---
+title: Model Providers
+description: Configure chat and embedding models for your organization
+---
+
+## What is a model provider?
+
+A model provider stores one model configuration that Geho can use. It includes a name, capability, provider, model, optional base URL, and API key.
+
+The API key is encrypted before it is stored and is never exposed to the website widget.
+
+## Capabilities
+
+| Capability | Used by | Purpose |
+| --- | --- | --- |
+| Chat | Chatbot | Generates answers from the assembled prompt and retrieved knowledge. |
+| Embedding | Knowledge base | Converts sources and questions into vectors for retrieval. |
+
+Create a separate configuration for each capability, even when both use the same provider account.
+
+## Add a model
+
+Open **Models** and select **Add model**. Then configure:
+
+1. A recognizable name, such as `Production OpenAI`.
+2. Either the **Chat** or **Embedding** capability.
+3. A supported provider and model.
+4. An optional base URL. Leave it blank to use the provider default.
+5. The API key required by the provider.
+
+Geho validates that the selected model supports the chosen capability.
+
+## Connect models to other objects
+
+Select an embedding model provider when creating a [knowledge base](/docs/knowledge-bases). Select a chat model provider when creating a [chatbot](/docs/chatbots).
+
+A configuration belongs to one organization and cannot be selected by resources in another organization.
+
+## Current management capabilities
+
+You can create and view model provider configurations. Editing or deleting them is not available in the current Dashboard.
+
+<Callout type="warn" title="Credentials">
+  Do not place provider API keys in frontend code, documentation, or an embed key. Configure them only through the authenticated Dashboard.
+</Callout>

@@ -1,0 +1,108 @@
+---
+title: Configuration
+description: Configure your local services and model providers
+icon: Cog
+---
+
+## Environment file
+
+Geho reads its local service configuration from `.env` in the repository root.
+
+Run `pnpm setup` after installing dependencies. It creates `.env` from `.env.example` if the file does not exist and generates missing or placeholder development secrets.
+
+Existing configured values are preserved. Setup does not automatically merge every new variable from `.env.example` into an existing `.env`.
+
+## Local services
+
+The default local configuration is:
+
+```dotenv
+APP_PORT=3000
+API_PORT=4000
+APP_URL=http://localhost:3000
+API_URL=http://localhost:4000
+NODE_ENV=development
+
+DATABASE_URL=postgres://geho:geho@localhost:5432/geho
+REDIS_URL=redis://localhost:6379
+```
+
+| Variable | Purpose |
+| --- | --- |
+| `APP_PORT` | Dashboard development server port |
+| `API_PORT` | API server port |
+| `APP_URL` | Dashboard URL used by server-side configuration |
+| `API_URL` | API URL used by the Dashboard's local proxy |
+| `DATABASE_URL` | PostgreSQL connection string |
+| `REDIS_URL` | Redis connection string used by the background queue |
+
+These defaults are intended for local development.
+
+### Change application ports
+
+Update each port together with its corresponding URL.
+For example:
+
+```dotenv
+APP_PORT=3100
+APP_URL=http://localhost:3100
+
+API_PORT=4100
+API_URL=http://localhost:4100
+```
+
+Restart the development processes after changing `.env`, then open `http://localhost:3100`.
+
+If you use the React widget, update its props `apiUrl` when changing the API address.
+
+## Generate secrets
+
+`pnpm setup` prepares these values:
+
+| Variable | Purpose |
+| --- | --- |
+| `BETTER_AUTH_SECRET` | Authentication secret |
+| `APP_ENCRYPTION_KEY` | Encrypts stored model provider credentials |
+
+<Callout title="Keeping encryption key">
+  Keep your configured encryption key when restarting or upgrading. Replacing it prevents existing provider credentials from being decrypted.
+</Callout>
+
+<Callout title="Do not expose your secrets" type="warn">
+  Do not put these values in frontend code or commit `.env` to Git.
+</Callout>
+
+## Model providers
+
+Configure model providers in the Dashboard.
+
+Geho uses two capabilities:
+
+- **Chat**: generates chatbot answers.
+- **Embedding**: converts knowledge and questions into vectors for retrieval.
+
+Create a configuration for each capability. They may use
+the same
+provider account, but they are separate configurations
+in Geho.
+
+A knowledge base selects an embedding provider. A
+chatbot selects a chat
+provider and a knowledge base.
+
+## Check local infrastructure
+
+Run:
+
+```shell
+pnpm infra:check
+```
+
+To inspect PostgreSQL and Redis logs:
+
+```shell
+pnpm infra:logs
+```
+
+The Worker must also be running for knowledge sources to
+finish processing.

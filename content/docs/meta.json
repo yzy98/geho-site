@@ -1,0 +1,17 @@
+{
+  "pages": [
+    "---Introduction---",
+    "index",
+    "configuration",
+    "first-chatbot",
+    "---Using Geho---",
+    "core-concepts",
+    "organizations-members",
+    "model-providers",
+    "knowledge-bases",
+    "chatbots",
+    "embed-keys",
+    "---Integrations---",
+    "widget"
+  ]
+}

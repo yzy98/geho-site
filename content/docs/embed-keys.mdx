@@ -1,0 +1,52 @@
+---
+title: Embed Keys
+description: Connect a chatbot to approved websites
+---
+
+## What is an embed key?
+
+An embed key is a public browser credential that connects website widget requests to one chatbot. It starts with `pk_` and does not contain your model provider credentials.
+
+Because visitors can see it in browser code, an embed key must only grant access to public widget operations.
+
+## Create a key
+
+Open **Chatbots**, select **Manage embed keys** for a chatbot, and create a key.
+
+Optionally enter allowed origins, one per line:
+
+```text
+https://www.example.com
+http://localhost:5173
+```
+
+Each value must be an HTTP or HTTPS origin. Include the protocol and port when applicable, and omit credentials, paths, query strings, and fragments. A key supports up to 20 allowed origins.
+
+Leaving the list empty permits requests from any origin. For a deployed website, restrict the key to the origins that host your widget.
+
+## Store the key
+
+The complete key is displayed only once after creation. Copy it before closing the dialog.
+
+Geho stores a hash and display-safe prefix rather than the complete key, so the Dashboard cannot reveal it again. If you lose it, create another key.
+
+## Use the key
+
+Pass the key and your browser-accessible API URL to the React widget:
+
+```tsx
+<ChatWidget
+  apiUrl="https://api.example.com"
+  embedKey="pk_replace_with_your_embed_key"
+/>
+```
+
+See [React Widget](/docs/widget/react) for the complete installation guide.
+
+## Current management capabilities
+
+You can create and list embed keys for a chatbot. Revoking or deleting a key is not available in the current Dashboard.
+
+## Troubleshooting
+
+If widget requests are rejected, confirm that the key belongs to the intended chatbot and that its allowed origins include the website's exact origin, including protocol and port.

@@ -1,0 +1,44 @@
+---
+title: Chatbots
+description: Combine instructions, a chat model, and knowledge into an assistant
+---
+
+## What is a chatbot?
+
+A chatbot is the assistant that answers visitor questions. It combines:
+
+- A name used in the Dashboard.
+- System instructions that define its role and response behavior.
+- One chat model provider that generates answers.
+- One knowledge base that supplies retrieved context.
+
+Multiple chatbots can reuse the same knowledge base with different chat models or instructions.
+
+## Create a chatbot
+
+Before creating a chatbot, configure at least one chat model provider and one knowledge base.
+
+Open **Chatbots**, select **Add chatbot**, and provide its name and system instructions. Then select the chat model and knowledge base it should use.
+
+Write focused system instructions that describe the assistant's role, tone, and relevant response rules. The retrieved source content supplies the factual knowledge.
+
+## Test a chatbot
+
+Select **Test** on a chatbot card and ask a question covered by a ready knowledge source.
+
+Review both the answer and its citations. If the expected information is missing, use the knowledge base's retrieval preview to check whether Geho finds the right chunks before changing the chatbot instructions.
+
+## Publish to a website
+
+Select **Manage embed keys** on the chatbot card, create a key, and use it with the [React Widget](/docs/widget/react).
+
+Each embed key belongs to one chatbot. You can create separate keys for different websites or environments.
+
+## Current management capabilities
+
+You can create and view chatbots, test their answers, and manage their embed keys. Editing or deleting chatbots is not available in the current Dashboard.
+
+## Related pages
+
+- [Knowledge Bases](/docs/knowledge-bases)
+- [Embed Keys](/docs/embed-keys)

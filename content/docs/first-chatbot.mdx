@@ -1,0 +1,83 @@
+---
+title: Create Your First Chatbot
+description: Add a knowledge source and generate your first grounded answer
+icon: Book
+---
+
+Before you begin, complete the [Quick Start](/docs) and keep the **Dashboard**, **API** and **Worker** running.
+
+## Create an account and organization
+
+Open the **Dashboard**, create an account, and create your organization.
+
+<Callout title="Note">
+  Your model providers, knowledge bases, and chatbots belong to this organization.
+</Callout>
+
+## Add model providers
+
+Create two model provider configurations in the **Dashboard**:
+
+- A **Chat** configuration for chatting LLM.
+- An **Embedding** configuration for indexing knowledge and searching it.
+
+Choose an available model for each capability and provide the credentials required by your provider.
+
+## Create a knowledge base
+
+Create a knowledge base named `Demo Knowledge Base` and select your embedding provider.
+
+## Add sample knowledge
+
+Open the knowledge base and add a text source.
+
+Use `Shipping Policy` as its title and paste:
+
+```text
+Acme Store ships orders within 2 business days.
+
+Standard delivery takes 3-5 business days after dispatch.
+
+Customers can request a return within 30 days of delivery.
+
+To request a return, email support@example.com with the order number.
+```
+
+Wait until the source status is `ready` before continuing.
+
+If the source remains `pending`, check that the Worker and Redis are
+running. If it becomes `failed`, inspect the reported error and check
+your embedding provider configuration.
+
+## Create a chatbot
+
+Create a chatbot named `Demo Support`.
+
+Select:
+
+- Your chat model provider.
+- `Demo Knowledge Base`.
+
+For its system instructions, use:
+
+```text
+You are Acme Store's support assistant.
+Answer clearly and concisely using the available store policies.
+```
+
+## Ask a question
+
+Open the chatbot's preview and ask:
+
+```text
+How long does standard delivery take after dispatch?
+```
+
+The answer should state **3–5 business days** and include a citation to the sample knowledge. The exact wording may vary.
+
+Check that the cited content supports the answer.
+
+## Next steps
+
+- [Knowledge Bases](/docs/knowledge-bases): learn about source processing and retrieval preview.
+- [React Widget](/docs/widget/react): add the chatbot to a React website.

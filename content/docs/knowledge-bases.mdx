@@ -1,0 +1,111 @@
+---
+title: Knowledge Bases
+description: Organize knowledge sources and inspect what your chatbot retrieves
+---
+
+## What is a knowledge base?
+
+A knowledge base is a reusable collection of sources that Geho can search when a chatbot needs to answer a question.
+
+Each knowledge base belongs to an organization and uses one [embedding model provider](/docs/model-providers). Multiple chatbots can share the same knowledge base, while each chatbot selects one knowledge base.
+
+Sources belong to the knowledge base. You do not need to add the same content separately for every chatbot that uses it.
+
+For a guided example, see [Create Your First Chatbot](/docs/first-chatbot).
+
+## Create a knowledge base
+
+Before creating a knowledge base, add a model provider with the **Embedding** capability.
+
+In the Dashboard:
+
+1. Open **Knowledge Bases**.
+2. Select **Add knowledge base**.
+3. Enter a descriptive name.
+4. Select an embedding model provider.
+5. Create the knowledge base.
+
+The selected embedding provider must belong to the current organization.
+
+<Callout title="Embedding model">
+  The embedding model processes both your source content and incoming questions so Geho can find related passages. The chat model that writes the final answer is configured separately on the chatbot.
+</Callout>
+
+## Add a text source
+
+Open a knowledge base and select **Add source**. Enter a title and paste the source content.
+
+The current version supports text sources. URL crawling and file uploads are not available yet.
+
+After you submit a source, Geho processes it in the background. Keep the Worker running until processing finishes.
+
+## Understand source status
+
+| Status | Meaning |
+| --- | --- |
+| `pending` | The source is saved and waiting for the Worker. |
+| `processing` | Geho is splitting the content and generating embeddings. |
+| `ready` | The source is indexed and available for retrieval. |
+| `failed` | Processing failed. The source list displays the reported error. |
+
+Only `ready` sources are used for retrieval.
+
+### Chunks
+
+Geho splits source content into smaller passages called chunks and generates an embedding for each one. When someone asks a question, Geho retrieves relevant chunks instead of sending the whole knowledge base to the chat model.
+
+The source list displays the number of chunks created for each source.
+
+## Preview retrieval
+
+After at least one source reaches `ready`, the knowledge base page displays **Retrieval preview**.
+
+Enter a question and run the preview to inspect which chunks Geho retrieves. This returns matching chunks, not a generated answer. Use the chatbot's **Test** action to inspect the final answer and its citations.
+
+If you followed the first chatbot tutorial, try:
+
+> How long does standard delivery take after dispatch?
+
+The retrieved results should include the passage that describes standard delivery times.
+
+## Reuse a knowledge base
+
+Select an existing knowledge base when creating another chatbot. The chatbots share its indexed sources while keeping their own chat model and system instructions.
+
+New sources become available to every connected chatbot after they reach `ready`.
+
+## Use a different embedding model
+
+The embedding provider is selected when the knowledge base is created. The current Dashboard does not provide an option to change it later.
+
+To use another embedding model, create a new model provider and knowledge base, add the source content again, and connect a new chatbot to that knowledge base. Reprocessing is required because embeddings produced by different models are not interchangeable.
+
+## Troubleshooting
+
+### A source stays pending
+
+Confirm that the Worker is running and that PostgreSQL and Redis are available:
+
+```bash
+pnpm infra:check
+```
+
+### A source fails
+
+Read the error displayed beside the source. Check the embedding provider credentials, model configuration, and network availability.
+
+The current Dashboard does not provide source editing, deletion, or manual retry actions. Create a new source after correcting the underlying problem.
+
+### Retrieval misses expected content
+
+Confirm that the source is `ready`, that you opened the intended knowledge base, and that the source explicitly contains the information needed to answer the question.
+
+## Current management capabilities
+
+You can create and view knowledge bases, add text sources, and preview retrieval. Updating or deleting knowledge bases and sources is not available in the current Dashboard.
+
+## Related pages
+
+- [Model Providers](/docs/model-providers)
+- [Chatbots](/docs/chatbots)
+- [Create Your First Chatbot](/docs/first-chatbot)

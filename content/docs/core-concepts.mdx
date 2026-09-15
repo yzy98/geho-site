@@ -1,0 +1,48 @@
+---
+title: Core Concepts
+description: Understand Geho's main objects and how they work together
+---
+
+Geho organizes the configuration and data needed to run website chatbots into a small set of connected objects.
+
+## Object relationships
+
+```text
+Organization
+├── Members
+├── Model Providers
+│   ├── Embedding model → Knowledge Base → Sources → Chunks
+│   └── Chat model ──────────────────────────────────────┐
+└── Chatbots ← Chat model + Knowledge Base ──────────────┘
+    └── Embed Keys → React Widget → Visitor conversations
+```
+
+| Object | Purpose |
+| --- | --- |
+| Organization | Owns the workspace and separates one team's data from another. |
+| Member | Gives a registered user access to an organization. |
+| Model Provider | Stores a chat or embedding model configuration and its encrypted credential. |
+| Knowledge Base | Groups reusable knowledge and selects an embedding model. |
+| Knowledge Source | Stores original text added to a knowledge base. |
+| Knowledge Chunk | A processed passage that Geho can retrieve for a question. |
+| Chatbot | Combines instructions, one chat model, and one knowledge base. |
+| Embed Key | Connects a chatbot to a website while enforcing an origin policy. |
+
+Sessions, messages, RAG traces, authentication records, and background outbox events are managed internally. You do not configure them as standalone objects in the Dashboard.
+
+## Recommended setup order
+
+1. Create an organization.
+2. Add chat and embedding model providers.
+3. Create a knowledge base and add sources.
+4. Wait for the sources to reach `ready`.
+5. Create and test a chatbot.
+6. Create an embed key and install the widget.
+
+For a complete walkthrough, follow [Create Your First Chatbot](/docs/first-chatbot).
+
+## Current management model
+
+The current Dashboard focuses on creating, viewing, and testing these objects. Update and delete actions are not yet exposed for most objects, even where the underlying permission model reserves those capabilities.
+
+Organization owners can create product resources and add members. Organization members can view the resources available in their organization.

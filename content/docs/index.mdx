@@ -1,0 +1,150 @@
+---
+title: Quick Start
+description: Getting Started with Geho
+icon: Rocket
+---
+
+import { Step, Steps } from 'fumadocs-ui/components/steps';
+
+## Introduction
+
+**Geho** is an open-source, self-hosted platform for building AI chatbots for company websites. It combines an admin dashboard, transparent RAG, bring-your-own model providers, and an embeddable [React widget](/docs/widget/react/).
+
+## Prerequisites
+
+- **[Git](https://git-scm.com/)**
+- **[Node.js](https://nodejs.org/)**
+- **[pnpm](https://pnpm.io/)**
+- A Docker-compatible runtime:
+  - **[Docker Desktop](https://www.docker.com/products/docker-desktop/)** or
+  - **[Colima](https://colima.run/#quick-start)**
+
+<Callout title="Docker images">
+  You do not need to install **PostgreSQL**, **Redis**, or **pgvector** manually. Docker Compose downloads and runs the required images.
+</Callout>
+
+## Install
+
+<Steps>
+
+<Step>
+
+Clone the repository
+
+```shell
+git clone https://github.com/yzy98/geho.git
+cd geho
+```
+
+</Step>
+
+<Step>
+
+Install the workspace dependencies
+
+```shell
+pnpm install --frozen-lockfile
+```
+
+</Step>
+
+<Step>
+
+Start Docker runtime
+
+<Tabs items={["Colima", "Docker Desktop"]}>
+  <Tab value="Colima">
+    ```shell
+    colima start
+    ```
+  </Tab>
+  <Tab value="Docker Desktop">start normally</Tab>
+</Tabs>
+
+</Step>
+
+<Step>
+
+Prepare the local environment
+
+```shell
+pnpm setup
+```
+
+The `pnpm setup` command is based on custom scripts, which will:
+
+- Creates `.env` from `.env.example` when needed
+- Generates local development secrets for placeholder values
+- Preserves existing environment values
+- Starts PostgreSQL with pgvector and Redis
+- Waits for both services to become healthy
+- Enables the pgvector extension
+- Applies the database migrations
+
+</Step>
+
+<Step>
+
+Start Geho
+
+```shell
+pnpm dev
+```
+
+</Step>
+
+</Steps>
+
+## Open the dashboard
+
+Visit [http://localhost:3000](http://localhost:3000).
+
+The local services run at:
+
+| Service | URL |
+| --- | --- |
+| Dashboard | `http://localhost:3000` |
+| API | `http://localhost:4000` |
+| PostgreSQL | `localhost:5432` |
+| Redis | `localhost:6379` |
+
+## Create your first chatbot
+
+After opening the dashboard:
+
+1. Create an account.
+2. Create an organization.
+3. Add chat and embedding model providers.
+4. Create a knowledge base.
+5. Add a text knowledge source.
+6. Wait for the source to finish processing.
+7. Create a chatbot connected to the knowledge base.
+8. Create an embed key.
+9. Install the chatbot using the React widget.
+
+## Daily development
+
+After the initial setup, start the infrastructure and development processes
+with:
+
+```shell
+pnpm infra:up
+pnpm dev
+```
+
+You can safely run `pnpm setup` again after pulling changes that may include
+new environment variables or database migrations.
+
+## Stop Geho
+
+Press <kbd>Ctrl</kbd> <kbd>C</kbd> to stop the application development processes.
+
+Stop PostgreSQL and Redis while keeping their data:
+
+```shell
+pnpm infra:down
+```
+
+<Callout title="Resetting local data" type="warn">
+  `pnpm infra:reset:danger` removes the local Docker volumes and permanently deletes the local PostgreSQL and Redis data.
+</Callout>
