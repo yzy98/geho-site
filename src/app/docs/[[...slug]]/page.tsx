@@ -1,3 +1,5 @@
+import Link from "fumadocs-core/link";
+import { PathUtils } from "fumadocs-core/source";
 import {
   DocsBody,
   DocsDescription,
@@ -5,10 +7,14 @@ import {
   DocsTitle,
   PageLastUpdate,
 } from "fumadocs-ui/layouts/docs/page";
-import { createRelativeLink } from "fumadocs-ui/mdx";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getMDXComponents } from "@/components/mdx";
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "@/components/ui/hover-card";
 import { getPageImageUrl } from "@/lib/shared";
 import { source } from "@/lib/source";
 
@@ -29,8 +35,35 @@ export default async function Page(props: PageProps<"/docs/[[...slug]]">) {
       <DocsBody>
         <MDX
           components={getMDXComponents({
-            // this allows you to link to other pages with relative file paths
-            a: createRelativeLink(source, page),
+            a({ href, ...props }) {
+              const found = source.getPageByHref(href ?? "", {
+                dir: PathUtils.dirname(page.path),
+              });
+
+              if (!found) {
+                return <Link href={href} {...props} />;
+              }
+
+              const resolvedHref = found.hash
+                ? `${found.page.url}#${found.hash}`
+                : found.page.url;
+
+              return (
+                <HoverCard>
+                  <HoverCardTrigger href={resolvedHref} {...props}>
+                    {props.children}
+                  </HoverCardTrigger>
+                  <HoverCardContent className="text-sm">
+                    <p className="font-medium">{found.page.data.title}</p>
+                    {found.page.data.description ? (
+                      <p className="mt-1 text-fd-muted-foreground">
+                        {found.page.data.description}
+                      </p>
+                    ) : null}
+                  </HoverCardContent>
+                </HoverCard>
+              );
+            },
           })}
         />
       </DocsBody>

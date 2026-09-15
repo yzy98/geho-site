@@ -1,6 +1,6 @@
 import { createGetUrl } from "fumadocs-core/source";
 
-export const appName = "My App";
+export const appName = "Geho";
 export const docsRoute = "/docs";
 export const docsImageRoute = "/og/docs";
 
