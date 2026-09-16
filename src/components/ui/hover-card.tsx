@@ -31,7 +31,7 @@ function HoverCardContent({
         <PreviewCardPrimitive.Popup
           className={cn(
             "w-72 origin-(--transform-origin) rounded-lg border bg-fd-popover p-4 text-fd-popover-foreground shadow-md outline-none data-closed:animate-fd-popover-out data-open:animate-fd-popover-in",
-            className
+            className,
           )}
           {...props}
         />
