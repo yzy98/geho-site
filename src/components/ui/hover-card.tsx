@@ -3,7 +3,7 @@
 import { PreviewCard as PreviewCardPrimitive } from "@base-ui/react/preview-card";
 import Link from "fumadocs-core/link";
 import type { ComponentProps } from "react";
-import { cn } from "@/lib/cn";
+import { cn } from "@/lib/utils";
 
 const HoverCard = PreviewCardPrimitive.Root;
 

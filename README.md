@@ -1,6 +1,6 @@
   # Geho Site
 
-  Official website and documentation for Geho.
+  Official website and documentation for [Geho](https://github.com/yzy98/geho).
 
   ## Development
 
